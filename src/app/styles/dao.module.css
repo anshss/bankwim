@@ -1,0 +1,112 @@
+.container{
+    min-height: 90vh;
+    background-color: rgba(26, 25, 25, 0.863);
+    display: flex;
+    justify-content: space-around;
+}
+
+.btndiv {
+    display: flex;
+    justify-content: space-around;
+    width: 30rem;
+}
+
+.btn{
+    padding: 1rem 2rem ;
+    margin:5rem 0rem 5rem -2rem;
+    border-radius: 0.25rem;
+    border: none;
+    cursor: pointer;
+    background-color:rgb(59, 177, 204) ;
+    color: #000;
+}
+
+.btn:hover{
+    background-color:rgb(210, 245, 253);
+}
+
+.in{
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+    /* margin-left: 5rem; */
+}
+.in > input{
+    height: 3.5rem;
+    background-color: #fff;
+    font-size: 1.25rem;
+    font-weight: 350;
+    /* border: none; */
+    border-width: 0 0 3px;
+    border-color: #000;
+    color: #000;
+    padding: 20px;
+    border-radius: .25rem;
+}
+.in > input::placeholder{
+    /* margin-left: 2rem; */
+    /* padding-left: 2rem; */
+    color: rgba(57, 56, 56, 0.818);
+    text-align: center;
+}
+.in > input[type=text]:focus {
+    border: 3px solid #555;
+  }
+.in > button{
+    height: 4rem;
+    background-color:rgb(59, 177, 204);
+    font-size: 1.25rem;
+    font-weight: 500;
+    border: none;
+    border-radius: .25rem;
+}
+
+.in > button:hover{
+    background-color:rgb(210, 245, 253);
+}
+
+/* ---------- */
+
+.card {
+    width: 35rem;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-end; */
+    align-items: flex-start;
+    /* align-content: flex-start; */
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.subdiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    border: 1px solid rgb(59, 177, 204);
+    border-radius: 0.5rem;
+}
+
+.subdiv>p {
+    margin: 0.7rem;
+}
+.subdiv>h4 {
+    margin: 0.7rem;
+}
+
+.cardbtns {
+    display: flex;
+    justify-content: space-around;
+    width: 30rem;
+}
+
+.cardbtn {
+    padding: 1rem 2rem ;
+    margin: 1.5rem 0rem 0rem 0rem;
+    border-radius: 0.25rem;
+    border: none;
+    cursor: pointer;
+    background-color:rgb(59, 177, 204) ;
+    color: #000;
+}
+
