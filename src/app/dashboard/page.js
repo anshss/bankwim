@@ -1,4 +1,4 @@
-"use state";
+"use client";
 import styles from "../styles/dashboard.module.css";
 // import { LendingContract } from "../address/Lending.js"
 import { LendingContract } from "../config-address.js";
@@ -13,8 +13,8 @@ import { LendingAbi } from "../config-abi.js";
 import web3modal from "web3modal";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import Nav from "../components/Nav";
-import { useRouter } from "next/router";
+
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const CollateralContractAbi = CollateralAbi;
@@ -335,7 +335,7 @@ export default function Dashboard() {
   if (state == true) {
     return (
       <div>
-        <Nav />
+       
         <div className={styles.container}>
           <div>
             <h2 className={styles.heading}>Collateral</h2>
