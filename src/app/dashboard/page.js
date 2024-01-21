@@ -72,13 +72,13 @@ export default function Dashboard() {
   }
 
   const getSignerOrProvider = async (needSigner = false) => {
-    const modal = new web3modal();
-    const connection = await modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     if (needSigner) {
       const signer = provider.getSigner();
+
       return signer;
     }
+
     return provider;
   };
 
@@ -96,7 +96,7 @@ export default function Dashboard() {
         contractAdd: stake.contractAdd,
         tokenId: stake.tokenId,
       };
-      // console.log("collateral", parsedData)
+      console.log("collateral", parsedData);
       if (parsedData.tokenId == null) return;
       const nftcontract = new ethers.Contract(
         parsedData.contractAdd,

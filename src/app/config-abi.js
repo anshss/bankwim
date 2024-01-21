@@ -133,9 +133,9 @@ export const CollateralAbi = `[
 			},
 			{
 				"indexed": false,
-				"internalType": "uint256",
+				"internalType": "int256",
 				"name": "value",
-				"type": "uint256"
+				"type": "int256"
 			}
 		],
 		"name": "updatedCreditStore",
@@ -215,9 +215,9 @@ export const CollateralAbi = `[
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "int256",
 				"name": "creditScore",
-				"type": "uint256"
+				"type": "int256"
 			}
 		],
 		"stateMutability": "view",
@@ -359,9 +359,9 @@ export const CollateralAbi = `[
 		"name": "getCreditScore",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "int256",
 				"name": "",
-				"type": "uint256"
+				"type": "int256"
 			}
 		],
 		"stateMutability": "view",
@@ -474,9 +474,9 @@ export const CollateralAbi = `[
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "int256",
 				"name": "newCreditScore",
-				"type": "uint256"
+				"type": "int256"
 			}
 		],
 		"name": "setCreditScore",
@@ -768,347 +768,3 @@ export const CollateralFundsAbi = `[
 		"type": "receive"
 	}
 ]`;
-
-export const DaoAbi = `[
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_lendingContract",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			}
-		],
-		"name": "OwnableInvalidOwner",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "OwnableUnauthorizedAccount",
-		"type": "error"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
-		"name": "joinedDao",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
-		"name": "leftDao",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "proposalId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
-		"name": "proposalCreated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "proposalId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
-		"name": "proposalVoted",
-		"type": "event"
-	},
-	{
-		"stateMutability": "payable",
-		"type": "fallback"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_contract",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "_destination",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_description",
-				"type": "string"
-			}
-		],
-		"name": "createProposal",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "daoMember",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "_address",
-				"type": "address"
-			},
-			{
-				"internalType": "bool",
-				"name": "isMember",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "timestamp",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "proposalId",
-				"type": "uint256"
-			}
-		],
-		"name": "executeProposal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "idToProposal",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "contractAdd",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "yayVotes",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "nayVotes",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "deadline",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "executed",
-				"type": "bool"
-			},
-			{
-				"internalType": "address",
-				"name": "destination",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "joinDao",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "leaveDao",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "numProposal",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "proposalId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "enum Dao.Vote",
-				"name": "vote",
-				"type": "uint8"
-			}
-		],
-		"name": "voteProposal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "withdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"stateMutability": "payable",
-		"type": "receive"
-	}
-]`;
-
-
