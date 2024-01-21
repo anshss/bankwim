@@ -33,25 +33,32 @@ export default function Card(prop) {
   return (
     <>
    { nftUrl&& <div className={styles.card}>
-        <Image src={nftUrl} width={1080} height={1080}></Image>
-      <div className={styles.inpbutton}>
-        <input
-          name="Value (Matic)"
-          placeholder="Value"
-          required
-          value={dataInput.value}
-          onChange={(e) => setData({ ...dataInput, value: e.target.value })}
-        />
-        <input
-          name="Term"
-          placeholder="Term (weeks)"
-          required
-          value={dataInput.term}
-          onChange={(e) => setData({ ...dataInput, term: e.target.value })}
-        />
-      </div>
+        <Image src={nftUrl} width={500} height={500}
+        className="w-full p-4 border border-white border-1 hover:border-2 rounded-md transition duration-700 ease-in-out"
+        ></Image>
+        <div className="flex ml-10 w-3/4 justify-around gap-1">
+  <input
+    name="Value (Matic)"
+    placeholder="Value"
+    required
+    value={dataInput.value}
+    onChange={(e) => setData({ ...dataInput, value: e.target.value })}
+    style={{ textAlign: 'center' }}
+    className="mt-2 bg-white text-black !important text-base font-normal border-none p-1 w-3/4 rounded-md"
+  />
+  <input
+    name="Term"
+    placeholder="Term (weeks)"
+    required
+    value={dataInput.term}
+    onChange={(e) => setData({ ...dataInput, term: e.target.value })}
+    style={{ textAlign: 'center' }}
+    className="mt-2 bg-white text-black !important text-base font-normal border-none p-1 w-3/4 rounded-md"
+  />
+</div>
+
       <button
-        className={styles.cltrlbutton}
+        className="flex justify-center items-center text-center p-[0.5rem] rounded-full border cursor-pointer bg-white hover:bg-black mt-3 ml-9 w-3/4 text-black hover:text-white font-medium text-base"
         onClick={() => prop.Collateral({ ...prop, dataInput: dataInput })}
       >
         Collateral
