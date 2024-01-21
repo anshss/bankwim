@@ -1,15 +1,12 @@
 "use client";
 import styles from "../../styles/dashboard.module.css";
-// import { LendingContract } from "../address/Lending.js"
-import { LendingContract } from "../config-address.js";
-// import { CollateralContract } from "../address/Collateral.js"
+
 import { CollateralContract } from "../config-address.js";
-// import { CollateralFundsContract } from "../address/CollateralFunds.js"
+
 import { CollateralFundsContract } from "../config-address.js";
-// import CollateralContractAbi from "../artifacts/contracts/Collateral.sol/Collateral.json";
+
 import { CollateralAbi } from "../config-abi.js";
-// import LendingContractAbi from "../artifacts/contracts/Lending.sol/Lending.json";
-import { LendingAbi } from "../config-abi.js";
+
 import web3modal from "web3modal";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
@@ -18,11 +15,10 @@ import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const CollateralContractAbi = CollateralAbi;
-  const LendingContractAbi = LendingAbi;
 
   const [uri, setUri] = useState({ collateral: "", lending: "" });
   const [collateralClaimed, setCollateralClaimed] = useState(false);
-  const [lendingClaimed, setLendingClaimed] = useState(false);
+
   const [state, setState] = useState(false);
 
   useEffect(() => {
@@ -36,7 +32,6 @@ export default function Dashboard() {
     const [result1] = await Promise.all([promise1]);
   }
 
-  // const LendingContract = "0xB1D590A1Ccc6Ae396279092163E51FB75A522506";
   // const CollateralContract = "0xDbAe147fbcCE70b6C238f231ff854817412720a8";
   // const CollateralFundsContract = "0xb41eA4DEF472879812DF17d987Be179073AB5f46";
   const tokenAddress = "0x01456A1e09d59E39C13ba8561188D637a7FE2C4a"; //usdt
@@ -86,8 +81,6 @@ export default function Dashboard() {
     }
     return provider;
   };
-
-  // ----------------------- Collateral
 
   async function fetchCollateralStake() {
     try {
@@ -239,31 +232,6 @@ export default function Dashboard() {
     );
   }
 
-  // ----------------------- Lending
-
-  function CardLending() {
-    return (
-      <div className={styles.len}>
-        {uri.lending && (
-          <div className={styles.card}>
-            <img src={uri.lending} />
-            <div className={styles.bb}>
-              {lendingClaimed ? (
-                <button onClick={claimLending} disabled>
-                  {" "}
-                  Claimed{" "}
-                </button>
-              ) : (
-                <button onClick={claimLending}> Claim </button>
-              )}
-              <button onClick={unstakeLending}> Unstake </button>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
-
   if (state == true) {
     return (
       <div>
@@ -271,10 +239,6 @@ export default function Dashboard() {
           <div>
             <h2 className={styles.heading}>Collateral</h2>
             <CardCollateral />
-          </div>
-          <div>
-            <h2 className={styles.heading}>Lending</h2>
-            <CardLending />
           </div>
         </div>
       </div>
