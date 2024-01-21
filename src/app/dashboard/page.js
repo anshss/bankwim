@@ -44,7 +44,7 @@ export default function Dashboard() {
 
   // const CollateralContract = "0xDbAe147fbcCE70b6C238f231ff854817412720a8";
   // const CollateralFundsContract = "0xb41eA4DEF472879812DF17d987Be179073AB5f46";
-  const tokenAddress = "0x01456A1e09d59E39C13ba8561188D637a7FE2C4a"; //usdt
+  const tokenAddress = "0x62dc8Cd2046852542F9B601CD8C486937f67dBc5"; 
 
   const router = useRouter();
 
@@ -360,9 +360,21 @@ export default function Dashboard() {
                   Claimed{" "}
                 </button>
               ) : (
-                <button onClick={claimCollateral} className="border border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"> Claim </button>
+                <button
+                  onClick={claimCollateral}
+                  className="border border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"
+                >
+                  {" "}
+                  Claim{" "}
+                </button>
               )}
-              <button onClick={unstakeCollateral} className="border border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"> Unstake </button>
+              <button
+                onClick={unstakeCollateral}
+                className="border border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"
+              >
+                {" "}
+                Unstake{" "}
+              </button>
             </div>
           </div>
         ) : null}
@@ -375,18 +387,25 @@ export default function Dashboard() {
       <div className="bg-black w-full h-screen ">
         <div className={styles.container}>
           <div>
-            <h2 className="text-white text-4xl text-bold mt-40 mb-10 text-center font-mono">Collateral</h2>
+            <h2 className="text-white text-4xl text-bold mt-40 mb-10 text-center font-mono">
+              Collateral
+            </h2>
             <div className="">
-            <CardCollateral />
+              <CardCollateral />
             </div>
-            
           </div>
         </div>
         <div className="bg-black flex flex-row justify-between pb-5 pt-10">
-          <div className="text-3xl text-center font-sans text-white ml-5">Health Factor : {healthFactor}</div>
-          <div className="text-3xl text-center font-sans text-white">Sucessful Returns : {sucessfulReturns}</div>
-          <div className="text-3xl text-center font-sans text-white">Credit Limit : {creditLimit}</div>
-          <div className="text-3xl text-center font-sans text-white mr-5">Credit Score : {creditScore}</div>
+          <div className="text-3xl text-center font-sans text-white ml-5">
+            Health Factor : {healthFactor}
+          </div>
+          <div className="text-3xl text-center font-sans text-white">
+            Sucessful Returns : {sucessfulReturns}
+          </div>
+         
+          <div className="text-3xl text-center font-sans text-white mr-5">
+            Credit Score : {creditScore}
+          </div>
         </div>
       </div>
     );

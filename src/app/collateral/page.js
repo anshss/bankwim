@@ -36,7 +36,7 @@ export default function Collateral() {
     const options = {
       method: "GET",
       url: `https://deep-index.moralis.io/api/v2/${user}/nft`,
-      params: { chain: "mumbai", normalizeMetadata: "false" },
+      params: { chain: "sepolia", normalizeMetadata: "false" },
       headers: {
         accept: "application/json",
         "X-API-Key":
@@ -117,9 +117,7 @@ export default function Collateral() {
   }
 
   return (
-    
     <div className="w-full h-screen bg-black mt-0 pt-40 text-center text-3xl">
-     
       <h2 className="text-white">Lock your Nfts and get 40% of value</h2>
 
       <div className="bg-black p-5">
