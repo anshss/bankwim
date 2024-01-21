@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
+import web3modal from "web3modal";
 export default function Dashboard() {
   const CollateralContractAbi = CollateralAbi;
 
@@ -20,10 +21,17 @@ export default function Dashboard() {
   const [collateralClaimed, setCollateralClaimed] = useState(false);
   const [nftUrl, setNftUrl] = useState();
   const [state, setState] = useState(false);
+  const [collectralBalance, setCollectralBalance] = useState("a");
+  const [borrowBalance, setBorrowBalance] = useState("a");
+  const [healthFactor, setHealthFactor] = useState("a");
+  const [sucessfulReturns, setSucessfulReturns] = useState("a");
+  const [creditLimit, setCreditLimit] = useState("a");
+  const [creditScore, setCreditScore] = useState("a");
 
   useEffect(() => {
     fetchdata().then(setState(true));
     hasClaimedCollateral();
+    claimTime();
   }, []);
 
   async function fetchdata() {
@@ -74,7 +82,9 @@ export default function Dashboard() {
   }
 
   const getSignerOrProvider = async (needSigner = false) => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const modal = new web3modal();
+    const connection = await modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
     if (needSigner) {
       const signer = provider.getSigner();
 
@@ -130,15 +140,15 @@ export default function Dashboard() {
       signer
     );
     const user = await fetchAccount();
-    const gasPrice = await provider.getFeeData();
-    const gas = ethers.utils.formatUnits(gasPrice.gasPrice, "wei");
-    const transaction = {
-      from: user,
-      gasPrice: gas,
-      gasLimit: "1000000",
-      maxFeePerGas: "300",
-      maxPriorityFeePerGas: "10",
-    };
+    // const gasPrice = await provider.getFeeData();
+    // const gas = ethers.utils.formatUnits(gasPrice.gasPrice, "wei");
+    // const transaction = {
+    //     from: user,
+    //     gasPrice: gas,
+    //     gasLimit: "1000000",
+    //     maxFeePerGas: "300",
+    //     maxPriorityFeePerGas: "10",
+    //   };
     const txn = await contract.claim();
     hasClaimedCollateral();
   }
@@ -202,36 +212,20 @@ export default function Dashboard() {
     );
     const provider = await getSignerOrProvider();
     const user = await fetchAccount();
-    const gasPrice = await provider.getFeeData();
-    const gas = ethers.utils.formatUnits(gasPrice.gasPrice, "wei");
-    const transaction = {
-      from: user,
-      gasPrice: gas,
-      gasLimit: "100000",
-      maxFeePerGas: "300",
-      maxPriorityFeePerGas: "10",
-    };
+    // const gasPrice = await provider.getGasPrice();
+    // const gas = ethers.utils.formatUnits(gasPrice.gasPrice, "wei");
+    // const transaction = {
+    //   from: user,
+    //   gasPrice: gas,
+    //   gasLimit: "100000",
+    //   maxFeePerGas: "300",
+    //   maxPriorityFeePerGas: "10",
+    // };
     const txn = await contract.unstake();
     await approve.wait();
     await txn.wait();
     router.push("/collateral");
   }
-
-  // const apiUrl = uri.collateral;
-  // const corsAnywhereUrl = "https://cors-anywhere.herokuapp.com/"; // CORS Anywhere proxy
-
-  // fetch(`${corsAnywhereUrl}${apiUrl}`)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // Handle the data from the response
-  //     console.log(data);
-  //   })
-  //   .catch((error) => {
-  //     // Handle errors
-  //     console.error("Error fetching data:", error);
-  //   });
-
-  // Your component or page in the frontend
 
   const fetchData = async (url) => {
     try {
@@ -248,9 +242,105 @@ export default function Dashboard() {
     }
   };
 
+  async function claimTime() {
+    try {
+      const signer = await getSignerOrProvider(true);
+      const contract = new ethers.Contract(
+        LendingContract,
+        LendingContractAbi,
+        signer
+      );
+      const txn = await contract.claimTime();
+      setLendingClaimed(txn);
+    } catch (error) {
+      // console.log(error)
+    }
+  }
+
   const imageFromUri = fetchData(uri.collateral).then((value) => {
     console.log(setNftUrl(value));
   });
+  async function getCreditScore() {
+    try {
+      const signer = await getSignerOrProvider(true);
+      const contract = new ethers.Contract(
+        CollateralContract,
+        CollateralContractAbi,
+        signer
+      );
+
+      const user = await fetchAccount();
+
+      const score = await contract.getCreditScore(user);
+
+      // console.log(BigInt(score._hex).toString());
+      setCreditScore(BigInt(score._hex).toString());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getHealthFactor() {
+    try {
+      const signer = await getSignerOrProvider(true);
+      const contract = new ethers.Contract(
+        CollateralContract,
+        CollateralContractAbi,
+        signer
+      );
+
+      const user = await fetchAccount();
+
+      const score = await contract.getHealthFactor(user);
+
+      // console.log(BigInt(score._hex).toString());
+      setHealthFactor(BigInt(score._hex).toString());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getSucessfulReturns() {
+    try {
+      const signer = await getSignerOrProvider(true);
+      const contract = new ethers.Contract(
+        CollateralContract,
+        CollateralContractAbi,
+        signer
+      );
+
+      const user = await fetchAccount();
+
+      const score = await contract.getSucessfulReturns(user);
+
+      // console.log(BigInt(score._hex).toString());
+      setSucessfulReturns(BigInt(score._hex).toString());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getCreditLimit() {
+    try {
+      const signer = await getSignerOrProvider(true);
+      const contract = new ethers.Contract(
+        CollateralContract,
+        CollateralContractAbi,
+        signer
+      );
+
+      const user = await fetchAccount();
+
+      const score = await contract.getCreditLimit(user);
+
+      // console.log(BigInt(score._hex).toString());
+      setCreditLimit(BigInt(score._hex).toString());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  getCreditScore();
+  getHealthFactor();
+  getSucessfulReturns();
+  getCreditLimit();
 
   // const imagedata = fetch(uri.collateral);
   // console.log(imagedata);
@@ -285,6 +375,12 @@ export default function Dashboard() {
             <h2 className={styles.heading}>Collateral</h2>
             <CardCollateral />
           </div>
+        </div>
+        <div>
+          <div>health factor : {healthFactor}</div>
+          <div>sucessful returns : {sucessfulReturns}</div>
+          <div>credit limit : {creditLimit}</div>
+          <div>ceredit score : {creditScore}</div>
         </div>
       </div>
     );

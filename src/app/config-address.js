@@ -1,7 +1,7 @@
-export const CollateralContract = "0x3bAc5ed67e4F5AB22AFdd71aB9a45431f8044346";
+export const CollateralContract = "0xCE6Dd4A6ad0Ae82B8f5fb447c9E0068e581674c5";
 
 export const CollateralFundsContract =
-  "0x6A1694e991F0574c37a34Ab19e94660cbc9a03bE";
+  "0x5468DdD63266086AcEB48fa4bE1aE39132dBf4B0";
 
-export const contractAddress = "0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada";
+export const contractAddress = "0xbf09E261e853597efD75ED452f30CF2A3faAA8CA";
 // matic/usdt on mumbai testnet

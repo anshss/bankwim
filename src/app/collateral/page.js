@@ -36,7 +36,7 @@ export default function Collateral() {
     const options = {
       method: "GET",
       url: `https://deep-index.moralis.io/api/v2/${user}/nft`,
-      params: { chain: "mumbai",  normalizeMetadata: "false" },
+      params: { chain: "mumbai", normalizeMetadata: "false" },
       headers: {
         accept: "application/json",
         "X-API-Key":
@@ -103,26 +103,24 @@ export default function Collateral() {
 
   if (nfts.length == 0) {
     return (
-
-        <div className="w-full h-screen bg-black ">
-          <div className="w-full h-screen bg-black mt-0 pt-40">
-          <h2 className="text-white text-center text-4xl font-mono font-bold">Lock your Nfts and get 40% of value</h2>
-          <h1 className="text-white text-center mt-4 text-3xl font-mono">No Nfts in your wallet</h1>
-          </div>
-      
-     
-    </div>
-    
+      <div className="w-full h-screen bg-black ">
+        <div className="w-full h-screen bg-black mt-0 pt-40">
+          <h2 className="text-white text-center text-4xl font-mono font-bold">
+            Lock your Nfts and get 40% of value
+          </h2>
+          <h1 className="text-white text-center mt-4 text-3xl font-mono">
+            No Nfts in your wallet
+          </h1>
+        </div>
+      </div>
     );
   }
 
   return (
-    
     <div className="w-full h-screen bg-black mt-0">
-     
       <h2 className="text-white">Lock your Nfts and get 40% of value</h2>
 
-      <div className="bg-white">
+      <div className="bg-white flex flex-wrap">
         {nfts.map((nft, i) => (
           <Card
             key={i}
@@ -130,9 +128,10 @@ export default function Collateral() {
             tokenContract={nft.token_address}
             tokenId={nft.token_id}
             Collateral={Collateral}
+            className="w-1/3 p-2 m-2" // Adjust width, padding, and margin as needed
           />
         ))}
       </div>
-    </div>
-  );
+    </div>
+  );
 }
