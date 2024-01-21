@@ -6,6 +6,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { SessionProvider } from "next-auth/react";
 import { polygonMumbai } from "wagmi/chains";
 const inter = Inter({ subsets: ["latin"] });
+import Navbar from './components/Navbar'
 
 const { publicClient, webSocketPublicClient } = configureChains(
   [polygonMumbai],
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <WagmiConfig config={config}>
         <SessionProvider>
+          <Navbar/>
           <body className={inter.className}>{children}</body>
         </SessionProvider>
       </WagmiConfig>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Moralis from "moralis";
-import Navbar from "../components/Navbar";
+
 import { CollateralContract } from "../config-address";
 import { CollateralAbi } from "../config-abi";
 import web3modal from "web3modal";
@@ -40,7 +40,7 @@ export default function Collateral() {
     const options = {
       method: "GET",
       url: `https://deep-index.moralis.io/api/v2/${user}/nft`,
-      params: { chain: "mumbai", format: "hex", normalizeMetadata: "false" },
+      params: { chain: "mumbai",  normalizeMetadata: "false" },
       headers: {
         accept: "application/json",
         "X-API-Key":
@@ -108,7 +108,7 @@ export default function Collateral() {
   if (nfts.length == 0) {
     return (
       <div className="">
-        <Navbar />
+      
         <h2>Lock your Nfts and get 40% of value</h2>
         <h1 className="">No Nfts in your wallet</h1>
       </div>
@@ -117,7 +117,7 @@ export default function Collateral() {
 
   return (
     <div className="">
-      <Navbar />
+     
       <h2>Lock your Nfts and get 40% of value</h2>
 
       <div className="">

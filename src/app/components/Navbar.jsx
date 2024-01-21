@@ -63,9 +63,12 @@ export default function Header() {
               Collateral
             </Link>
 
-            <a class="mr-5 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04">
-              DashBoard
-            </a>
+            <Link
+              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
+              href="/dashboard"
+            >
+              Dashboard
+            </Link>
           </div>
 
           <SignIn>
