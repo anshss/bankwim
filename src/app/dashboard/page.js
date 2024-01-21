@@ -212,15 +212,19 @@ export default function Dashboard() {
     );
     const provider = await getSignerOrProvider();
     const user = await fetchAccount();
-    const gasPrice = await provider.getFeeData();
-    const gas = ethers.utils.formatUnits(gasPrice.gasPrice, "wei");
-    const transaction = {
-      from: user,
-      gasPrice: gas,
-      gasLimit: "100000",
-      maxFeePerGas: "300",
-      maxPriorityFeePerGas: "10",
-    };
+<<<<<<< Updated upstream
+    // const gasPrice = await provider.getGasPrice();
+=======
+    // const gasPrice = await provider.getFeeData();
+>>>>>>> Stashed changes
+    // const gas = ethers.utils.formatUnits(gasPrice.gasPrice, "wei");
+    // const transaction = {
+    //   from: user,
+    //   gasPrice: gas,
+    //   gasLimit: "100000",
+    //   maxFeePerGas: "300",
+    //   maxPriorityFeePerGas: "10",
+    // };
     const txn = await contract.unstake();
     await approve.wait();
     await txn.wait();
