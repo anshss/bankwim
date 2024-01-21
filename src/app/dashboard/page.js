@@ -7,18 +7,18 @@ import { CollateralFundsContract } from "../config-address.js";
 
 import { CollateralAbi } from "../config-abi.js";
 
-import web3modal from "web3modal";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
-
+import axios from "axios";
+import Image from "next/image";
 export default function Dashboard() {
   const CollateralContractAbi = CollateralAbi;
 
-  const [uri, setUri] = useState({ collateral: "", lending: "" });
+  const [uri, setUri] = useState({ collateral: "" });
   const [collateralClaimed, setCollateralClaimed] = useState(false);
-
+  const [nftUrl, setNftUrl] = useState();
   const [state, setState] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,9 @@ export default function Dashboard() {
   async function fetchdata() {
     const promise1 = fetchCollateralStake();
 
-    const [result1] = await Promise.all([promise1]);
+    const result1 = await Promise.all([promise1]);
+    console.log("result1");
+    console.log(promise1);
   }
 
   // const CollateralContract = "0xDbAe147fbcCE70b6C238f231ff854817412720a8";
@@ -83,6 +85,7 @@ export default function Dashboard() {
   };
 
   async function fetchCollateralStake() {
+    console.log("fetching data");
     try {
       const signer = await getSignerOrProvider(true);
       const contract = new ethers.Contract(
@@ -90,8 +93,12 @@ export default function Dashboard() {
         CollateralContractAbi,
         signer
       );
+      console.log(contract);
       const user = await fetchAccount();
+
       const stake = await contract.userToStake(user);
+
+      console.log(stake);
       const parsedData = {
         contractAdd: stake.contractAdd,
         tokenId: stake.tokenId,
@@ -103,12 +110,13 @@ export default function Dashboard() {
         uriAbi,
         signer
       );
+      console.log(nftcontract);
       const id = parsedData.tokenId;
       const uriHere = await nftcontract.tokenURI(id.toNumber());
       console.log(uriHere);
       setUri({ ...uri, collateral: uriHere });
     } catch (error) {
-      // console.log(error)
+      console.log(error);
     }
   }
 
@@ -209,12 +217,49 @@ export default function Dashboard() {
     router.push("/collateral");
   }
 
+  // const apiUrl = uri.collateral;
+  // const corsAnywhereUrl = "https://cors-anywhere.herokuapp.com/"; // CORS Anywhere proxy
+
+  // fetch(`${corsAnywhereUrl}${apiUrl}`)
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     // Handle the data from the response
+  //     console.log(data);
+  //   })
+  //   .catch((error) => {
+  //     // Handle errors
+  //     console.error("Error fetching data:", error);
+  //   });
+
+  // Your component or page in the frontend
+
+  const fetchData = async (url) => {
+    try {
+      const ipfsUrl = url;
+      const uslObj = { ipfsUri: ipfsUrl };
+      const response = await axios.post("/api/uriHandler/", uslObj);
+
+      const imageUrl = response.data.ipfsData.image;
+      return imageUrl;
+
+      console.log("Data from IPFS:", data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const imageFromUri = fetchData(uri.collateral).then((value) => {
+    console.log(setNftUrl(value));
+  });
+
+  // const imagedata = fetch(uri.collateral);
+  // console.log(imagedata);
   function CardCollateral() {
     return (
       <div className={styles.col}>
         {uri.collateral ? (
           <div className={styles.card}>
-            <img src={uri.collateral} />
+            <Image src={nftUrl} width={1080} height={1080}></Image>
             <div className={styles.bb}>
               {collateralClaimed ? (
                 <button onClick={claimCollateral} disabled>
