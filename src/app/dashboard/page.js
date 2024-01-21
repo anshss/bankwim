@@ -212,11 +212,9 @@ export default function Dashboard() {
     );
     const provider = await getSignerOrProvider();
     const user = await fetchAccount();
-<<<<<<< Updated upstream
+
     // const gasPrice = await provider.getGasPrice();
-=======
     // const gasPrice = await provider.getFeeData();
->>>>>>> Stashed changes
     // const gas = ethers.utils.formatUnits(gasPrice.gasPrice, "wei");
     // const transaction = {
     //   from: user,
@@ -225,6 +223,7 @@ export default function Dashboard() {
     //   maxFeePerGas: "300",
     //   maxPriorityFeePerGas: "10",
     // };
+
     const txn = await contract.unstake();
     await approve.wait();
     await txn.wait();
@@ -350,20 +349,20 @@ export default function Dashboard() {
   // console.log(imagedata);
   function CardCollateral() {
     return (
-      <div className={styles.col}>
+      <div className="bg-black border border-2 border-white">
         {uri.collateral ? (
           <div className={styles.card}>
-            <Image src={nftUrl} width={1080} height={1080}></Image>
-            <div className={styles.bb}>
+            <Image src={nftUrl} width={500} height={500}></Image>
+            <div className="flex flex-row w-400 gap-4 p-4 ml-4 mb-0">
               {collateralClaimed ? (
                 <button onClick={claimCollateral} disabled>
                   {" "}
                   Claimed{" "}
                 </button>
               ) : (
-                <button onClick={claimCollateral}> Claim </button>
+                <button onClick={claimCollateral} className="border border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"> Claim </button>
               )}
-              <button onClick={unstakeCollateral}> Unstake </button>
+              <button onClick={unstakeCollateral} className="border border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"> Unstake </button>
             </div>
           </div>
         ) : null}
@@ -373,18 +372,21 @@ export default function Dashboard() {
 
   if (state == true) {
     return (
-      <div>
+      <div className="bg-black w-full h-screen ">
         <div className={styles.container}>
           <div>
-            <h2 className={styles.heading}>Collateral</h2>
+            <h2 className="text-white text-4xl text-bold mt-40 mb-10 text-center font-mono">Collateral</h2>
+            <div className="">
             <CardCollateral />
+            </div>
+            
           </div>
         </div>
-        <div>
-          <div>health factor : {healthFactor}</div>
-          <div>sucessful returns : {sucessfulReturns}</div>
-          <div>credit limit : {creditLimit}</div>
-          <div>ceredit score : {creditScore}</div>
+        <div className="bg-black flex flex-row justify-between pb-5 pt-10">
+          <div className="text-3xl text-center font-sans text-white ml-5">Health Factor : {healthFactor}</div>
+          <div className="text-3xl text-center font-sans text-white">Sucessful Returns : {sucessfulReturns}</div>
+          <div className="text-3xl text-center font-sans text-white">Credit Limit : {creditLimit}</div>
+          <div className="text-3xl text-center font-sans text-white mr-5">Credit Score : {creditScore}</div>
         </div>
       </div>
     );

@@ -1,12 +1,12 @@
 
 export default function Main() {
     return (
-        <section class="text-gray-600 body-font">
+        <section class="text-gray-600 body-font bg-black">
             <div class="max-w-5xl pt-40 pb-24 mx-auto">
                 <h1 class="text-80 text-center font-4 lh-6 ld-04 font-bold text-white mb-6">
                     Maximize NFT Value with Secure, Passive Earnings
                 </h1>
-                <h2 class="text-2xl font-4 font-semibold lh-6 ld-04 pb-11 text-gray-500 text-center">
+                <h2 class="text-2xl font-4 font-semibold lh-6 ld-04 pb-11 text-gray-400 text-center">
                     Empower Your NFTs: Secure Collateral Loans and Earn Passive
                     Income Seamlessly
                     <br />
@@ -56,7 +56,7 @@ export default function Main() {
                     <p class="pt-2 value-text text-md text-gray-200 fkrr1">
                         Transform your digital assets into immediate value. Our
                         platform enables users to place their NFTs as collateral
-                        for stablecoins like USDT.
+                        for stablecoins like GHO.
                     </p>
                 </div>
                 <div class="ktq4">
@@ -115,18 +115,18 @@ export default function Main() {
                 <div class="ktq4">
                     <img src=""></img>
                     <h3 class="pt-3 font-semibold text-lg text-white">
-                        Deposit NFT to take some USDT
+                        Deposit NFT to take some GHO
                     </h3>
                     <p class="pt-2 value-text text-md text-gray-200 fkrr1">
                         List your NFT as collateral and get a loan up to 40% of
-                        NFT value from us in USDT. Once you hit the button, your
+                        NFT value from us in GHO. Once you hit the button, your
                         NFT gets transferred into a escrow smart contract for
                         the loan duration. Repay the loan after the duration
                         with 4% interest in a duration of 1 month. If you
                         default, our Dao can foreclose your NFT. Collateral
                         duration can vary between 1 month to 4 months. This time
                         period is decided to avoid NFT fluctuations. For the
-                        same reason, the amount is given in USDT.
+                        same reason, the amount is given in GHO.
                     </p>
                 </div>
             </div>
