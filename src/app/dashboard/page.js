@@ -28,19 +28,18 @@ export default function Dashboard() {
   useEffect(() => {
     fetchdata().then(setState(true));
     hasClaimedCollateral();
-    claimTime();
   }, []);
 
   async function fetchdata() {
     const promise1 = fetchCollateralStake();
-    const promise2 = fetchLendingStake();
-    const [result1, result2] = await Promise.all([promise1, promise2]);
+
+    const [result1] = await Promise.all([promise1]);
   }
 
   // const LendingContract = "0xB1D590A1Ccc6Ae396279092163E51FB75A522506";
   // const CollateralContract = "0xDbAe147fbcCE70b6C238f231ff854817412720a8";
   // const CollateralFundsContract = "0xb41eA4DEF472879812DF17d987Be179073AB5f46";
-  const tokenAddress = "0xFA31614f5F776eDD6f72Bc00BdEb22Bd4A59A7Db"; //usdt
+  const tokenAddress = "0x01456A1e09d59E39C13ba8561188D637a7FE2C4a"; //usdt
 
   const router = useRouter();
 
@@ -72,6 +71,7 @@ export default function Dashboard() {
         method: "eth_requestAccounts",
       });
       const account = accounts[0];
+
       return account;
     }
   }
@@ -241,74 +241,6 @@ export default function Dashboard() {
 
   // ----------------------- Lending
 
-  async function fetchLendingStake() {
-    try {
-      const signer = await getSignerOrProvider(true);
-      const contract = new ethers.Contract(
-        LendingContract,
-        LendingContractAbi,
-        signer
-      );
-      const user = await fetchAccount();
-      const stake = await contract.userToStake(user);
-      const parsedData = {
-        contractAdd: stake.contractAdd,
-        tokenId: stake.tokenId,
-      };
-      // console.log(parsedData)
-      if (parsedData.tokenId == null) return;
-      const nftcontract = new ethers.Contract(
-        parsedData.contractAdd,
-        uriAbi,
-        signer
-      );
-      const id = parsedData.tokenId;
-      const uriHere = await nftcontract.tokenURI(id.toNumber());
-      console.log(uriHere);
-      setUri({ ...uri, lending: uriHere });
-    } catch (error) {
-      // console.log(error)
-    }
-  }
-
-  async function claimLending() {
-    const signer = await getSignerOrProvider(true);
-    const contract = new ethers.Contract(
-      LendingContract,
-      LendingContractAbi,
-      signer
-    );
-    const txn = await contract.claim();
-    await txn.wait();
-    setClaimed(true);
-  }
-
-  async function unstakeLending() {
-    const signer = await getSignerOrProvider(true);
-    const contract = new ethers.Contract(
-      LendingContract,
-      LendingContractAbi,
-      signer
-    );
-    const txn = await contract.unstake();
-    await txn.wait();
-  }
-
-  async function claimTime() {
-    try {
-      const signer = await getSignerOrProvider(true);
-      const contract = new ethers.Contract(
-        LendingContract,
-        LendingContractAbi,
-        signer
-      );
-      const txn = await contract.claimTime();
-      setLendingClaimed(txn);
-    } catch (error) {
-      // console.log(error)
-    }
-  }
-
   function CardLending() {
     return (
       <div className={styles.len}>
@@ -335,7 +267,6 @@ export default function Dashboard() {
   if (state == true) {
     return (
       <div>
-       
         <div className={styles.container}>
           <div>
             <h2 className={styles.heading}>Collateral</h2>

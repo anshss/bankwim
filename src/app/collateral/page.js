@@ -107,20 +107,26 @@ export default function Collateral() {
 
   if (nfts.length == 0) {
     return (
-      <div className="">
+
+        <div className="w-full h-screen bg-black ">
+          <div className="w-full h-screen bg-black mt-0 pt-40">
+          <h2 className="text-white text-center text-4xl font-mono font-bold">Lock your Nfts and get 40% of value</h2>
+          <h1 className="text-white text-center mt-4 text-3xl font-mono">No Nfts in your wallet</h1>
+          </div>
       
-        <h2>Lock your Nfts and get 40% of value</h2>
-        <h1 className="">No Nfts in your wallet</h1>
-      </div>
+     
+    </div>
+    
     );
   }
 
   return (
-    <div className="">
+    
+    <div className="w-full h-screen bg-black mt-0">
      
-      <h2>Lock your Nfts and get 40% of value</h2>
+      <h2 className="text-white">Lock your Nfts and get 40% of value</h2>
 
-      <div className="">
+      <div className="bg-white">
         {nfts.map((nft, i) => (
           <Card
             key={i}
@@ -131,6 +137,6 @@ export default function Collateral() {
           />
         ))}
       </div>
-    </div>
-  );
+    </div>
+  );
 }

@@ -11,8 +11,7 @@ import web3modal from "web3modal";
 import { ethers } from "ethers";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Web3Storage } from "web3.storage";
-import { saveAs } from "file-saver";
+
 import  Card  from "../components/CardLending";
 
 export default function Lending() {
