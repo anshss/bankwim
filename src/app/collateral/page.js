@@ -1,17 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Moralis from "moralis";
-
 import { CollateralContract } from "../config-address";
 import { CollateralAbi } from "../config-abi";
 import web3modal from "web3modal";
 import { ethers } from "ethers";
 import axios from "axios";
-import { useRouter } from "next/router";
-import { Web3Storage } from "web3.storage";
-import { saveAs } from "file-saver";
-import Card from "../components/CardCollateral";
+
+import Card from "../../components/CardCollateral";
 
 export default function Collateral() {
   const contractAddress = CollateralContract;

@@ -1,5 +1,5 @@
 "use client";
-import styles from "../styles/dashboard.module.css";
+import styles from "../../styles/dashboard.module.css";
 // import { LendingContract } from "../address/Lending.js"
 import { LendingContract } from "../config-address.js";
 // import { CollateralContract } from "../address/Collateral.js"
