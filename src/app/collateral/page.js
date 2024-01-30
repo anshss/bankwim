@@ -36,7 +36,7 @@ export default function Collateral() {
     const options = {
       method: "GET",
       url: `https://deep-index.moralis.io/api/v2/${user}/nft`,
-      params: { chain: "sepolia", normalizeMetadata: "false" },
+      params: { chain: "mumbai", normalizeMetadata: "false" },
       headers: {
         accept: "application/json",
         "X-API-Key":
