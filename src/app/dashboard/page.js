@@ -134,19 +134,22 @@ export default function Dashboard() {
   }
 
   async function claimCollateral(amount) {
-    const valueString = amount.toString();
-    const parseValue = ethers.utils.parseUnits(valueString, "ether");
-    const signer = await getSignerOrProvider(true);
-    //const provider = new ethers.providers.JsonRpcProvider(`https://stylish-dark-violet.matic-testnet.discover.quiknode.pro/d935f45044efc89c96e437b0774f40b074c7816e/`)
-    const provider = await getSignerOrProvider();
-    const contract = new ethers.Contract(
-      CollateralContract,
-      CollateralContractAbi,
-      signer
-    );
-    const user = await fetchAccount();
-    const txn = await contract.claim(parseValue);
-    hasClaimedCollateral();
+    try {
+      const valueString = amount.toString();
+      const parseValue = ethers.utils.parseUnits("1", "ether");
+      const signer = await getSignerOrProvider(true);
+      const contract = new ethers.Contract(
+        CollateralContract,
+        CollateralContractAbi,
+        signer
+      );
+      console.log(parseValue);
+      const txn = await contract.claim(parseValue);
+      await txn.wait(); // Wait for the transaction to be confirmed
+      hasClaimedCollateral(); // Update state or UI as needed after confirmation
+    } catch (error) {
+      console.error("Error in claiming collateral:", error);
+    }
   }
 
   async function hasClaimedCollateral() {
@@ -409,16 +412,16 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="mx-96 mt-10 rounded-full text-black ">
-        <input
-        className="text-center rounded-md p-2 text-md"
-          type="text"
-          placeholder="amount"
-          onChange={(e) => {
-            setClaimAmount(e.target.value);
-          }}
-        />
+          <input
+            className="text-center rounded-md p-2 text-md"
+            type="text"
+            placeholder="amount"
+            onChange={(e) => {
+              setClaimAmount(e.target.value);
+            }}
+          />
         </div>
-        
+
         <div className=" ml-60 mt-5 flex flex-col justify-center pb-10 -pr-10 pt-10 w-3/4 ">
           <div className=" w-1/4 ml-96 text-3xl text-center font-sans mb-4 border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
             Health Factor : {healthFactor}
