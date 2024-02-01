@@ -411,7 +411,7 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="mx-96 mt-10 rounded-full text-black ">
+        <div className=" mx-96 mt-2 flex flex-col justify-center pb-10 pt-10 w-1/2 ">
           <input
             className="text-center rounded-md p-2 text-md"
             type="text"
