@@ -86,8 +86,10 @@ export default function Collateral() {
     console.log(prop.dataInput);
     const approve = await nftcontract.approve(contractAddress, prop.tokenId);
     const valueString = prop.dataInput.value;
+    console.log(valueString);
     const parseValue = ethers.utils.parseUnits(valueString, "ether");
     const contract = new ethers.Contract(contractAddress, contractAbi, signer);
+    console.log(parseValue);
     const txn = await contract.deposit(
       prop.tokenContract,
       prop.tokenId,

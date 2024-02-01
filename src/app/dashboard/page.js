@@ -28,7 +28,7 @@ export default function Dashboard() {
   const [sucessfulReturns, setSucessfulReturns] = useState("Na");
   const [creditLimit, setCreditLimit] = useState("Na");
   const [creditScore, setCreditScore] = useState("Na");
-  
+
   const [claimAmount, setClaimAmount] = useState();
 
   useEffect(() => {
@@ -134,8 +134,8 @@ export default function Dashboard() {
   }
 
   async function claimCollateral(amount) {
-    console.log(amount);
-    console.log(amount.toString());
+    const valueString = amount.toString();
+    const parseValue = ethers.utils.parseUnits(valueString, "ether");
     const signer = await getSignerOrProvider(true);
     //const provider = new ethers.providers.JsonRpcProvider(`https://stylish-dark-violet.matic-testnet.discover.quiknode.pro/d935f45044efc89c96e437b0774f40b074c7816e/`)
     const provider = await getSignerOrProvider();
@@ -145,9 +145,7 @@ export default function Dashboard() {
       signer
     );
     const user = await fetchAccount();
-    const txn = await contract.claim({
-      value: ethers.BigNumber.from(amount),
-    });
+    const txn = await contract.claim(parseValue);
     hasClaimedCollateral();
   }
 
