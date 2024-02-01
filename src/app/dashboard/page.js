@@ -22,12 +22,14 @@ export default function Dashboard() {
   const [collateralClaimed, setCollateralClaimed] = useState(false);
   const [nftUrl, setNftUrl] = useState();
   const [state, setState] = useState(false);
-  const [collectralBalance, setCollectralBalance] = useState("a");
-  const [borrowBalance, setBorrowBalance] = useState("a");
-  const [healthFactor, setHealthFactor] = useState("a");
-  const [sucessfulReturns, setSucessfulReturns] = useState("a");
-  const [creditLimit, setCreditLimit] = useState("a");
-  const [creditScore, setCreditScore] = useState("a");
+  const [collectralBalance, setCollectralBalance] = useState("Na");
+  const [borrowBalance, setBorrowBalance] = useState("Na");
+  const [healthFactor, setHealthFactor] = useState("Na");
+  const [sucessfulReturns, setSucessfulReturns] = useState("Na");
+  const [creditLimit, setCreditLimit] = useState("Na");
+  const [creditScore, setCreditScore] = useState("Na");
+  
+  const [claimAmount, setClaimAmount] = useState();
 
   useEffect(() => {
     fetchdata().then(setState(true));
@@ -131,7 +133,9 @@ export default function Dashboard() {
     }
   }
 
-  async function claimCollateral() {
+  async function claimCollateral(amount) {
+    console.log(amount);
+    console.log(amount.toString());
     const signer = await getSignerOrProvider(true);
     //const provider = new ethers.providers.JsonRpcProvider(`https://stylish-dark-violet.matic-testnet.discover.quiknode.pro/d935f45044efc89c96e437b0774f40b074c7816e/`)
     const provider = await getSignerOrProvider();
@@ -141,16 +145,9 @@ export default function Dashboard() {
       signer
     );
     const user = await fetchAccount();
-    // const gasPrice = await provider.getFeeData();
-    // const gas = ethers.utils.formatUnits(gasPrice.gasPrice, "wei");
-    // const transaction = {
-    //     from: user,
-    //     gasPrice: gas,
-    //     gasLimit: "1000000",
-    //     maxFeePerGas: "300",
-    //     maxPriorityFeePerGas: "10",
-    //   };
-    const txn = await contract.claim();
+    const txn = await contract.claim({
+      value: ethers.BigNumber.from(amount),
+    });
     hasClaimedCollateral();
   }
 
@@ -275,10 +272,30 @@ export default function Dashboard() {
 
       const user = await fetchAccount();
 
-      const score = await contract.getCreditScore(user);
+      const score = await contract.getCreditScore();
 
       // console.log(BigInt(score._hex).toString());
       setCreditScore(BigInt(score._hex).toString());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getCreditLimit() {
+    try {
+      const signer = await getSignerOrProvider(true);
+      const contract = new ethers.Contract(
+        CollateralContract,
+        CollateralContractAbi,
+        signer
+      );
+
+      const user = await fetchAccount();
+
+      const score = await contract.getCreditLimit();
+
+      // console.log(BigInt(score._hex).toString());
+      setCreditLimit(BigInt(score._hex).toString());
     } catch (error) {
       console.log(error);
     }
@@ -294,7 +311,7 @@ export default function Dashboard() {
 
       const user = await fetchAccount();
 
-      const score = await contract.getHealthFactor(user);
+      const score = await contract.getHealthFactor();
 
       // console.log(BigInt(score._hex).toString());
       setHealthFactor(BigInt(score._hex).toString());
@@ -313,7 +330,7 @@ export default function Dashboard() {
 
       const user = await fetchAccount();
 
-      const score = await contract.getSucessfulReturns(user);
+      const score = await contract.getSucessfulReturns();
 
       // console.log(BigInt(score._hex).toString());
       setSucessfulReturns(BigInt(score._hex).toString());
@@ -332,7 +349,7 @@ export default function Dashboard() {
 
       const user = await fetchAccount();
 
-      const score = await contract.getCreditLimit(user);
+      const score = await contract.getCreditLimit();
 
       // console.log(BigInt(score._hex).toString());
       setCreditLimit(BigInt(score._hex).toString());
@@ -356,13 +373,10 @@ export default function Dashboard() {
             <Image src={nftUrl} width={300} height={300} alt="nftimage"></Image>
             <div className="flex flex-row w-400 gap-4 p-4 ml-4 mb-0">
               {collateralClaimed ? (
-                <button onClick={claimCollateral} disabled>
-                  {" "}
-                  Claimed{" "}
-                </button>
+                <button disabled> Claimed </button>
               ) : (
                 <button
-                  onClick={claimCollateral}
+                  onClick={() => claimCollateral(claimAmount)}
                   className=" border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"
                 >
                   {" "}
@@ -396,6 +410,13 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+        <input
+          type="text"
+          placeholder="amount"
+          onChange={(e) => {
+            setClaimAmount(e.target.value);
+          }}
+        />
         <div className=" ml-60 mt-10 flex flex-col justify-center pb-10 -pr-10 pt-10 w-3/4 ">
           <div className=" w-1/4 ml-96 text-3xl text-center font-sans mb-4 border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
             Health Factor : {healthFactor}
@@ -406,6 +427,9 @@ export default function Dashboard() {
 
           <div className="w-1/4 ml-96 text-3xl text-center font-sans border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
             Credit Score : {creditScore}
+          </div>
+          <div className="w-1/4 ml-96 text-3xl text-center font-sans border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
+            Credit Limit : {creditLimit}
           </div>
         </div>
       </div>
