@@ -47,8 +47,8 @@ function SignIn() {
 
   return (
     <div >
-     <button className="text-black hover:text-white bg-white hover:bg-black border border-gray-200 focus:ring-4 focus:outline-none font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 mt-1">
-     <p onClick={() => handleAuth()}>Sign-in</p>
+     <button className="text-black hover:text-white bg-white hover:bg-black border border-gray-200 focus:ring-4 focus:outline-none font-medium rounded-full text-md px-10 py-2 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2 mt-1">
+     <p onClick={() => handleAuth()}>Sign-In</p>
       </button> 
     </div>
   );

@@ -1,29 +1,8 @@
-.container{
-    min-height: 90vh;
-    background-color: rgba(26, 25, 25, 0.863);
-    display: flex;
-    justify-content: space-around;
-}
 
-.btndiv {
-    display: flex;
-    justify-content: space-around;
-    width: 30rem;
-}
 
-.btn{
-    padding: 1rem 2rem ;
-    margin:5rem 0rem 5rem -2rem;
-    border-radius: 0.25rem;
-    border: none;
-    cursor: pointer;
-    background-color:rgb(59, 177, 204) ;
-    color: #000;
-}
 
-.btn:hover{
-    background-color:rgb(210, 245, 253);
-}
+
+
 
 .in{
     display: flex;
@@ -71,9 +50,7 @@
     width: 35rem;
     display: flex;
     flex-direction: column;
-    /* justify-content: flex-end; */
     align-items: flex-start;
-    /* align-content: flex-start; */
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
@@ -109,4 +86,3 @@
     background-color:rgb(59, 177, 204) ;
     color: #000;
 }
-

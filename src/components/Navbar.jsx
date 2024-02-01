@@ -58,6 +58,18 @@ export default function Header() {
             >
               Collateral
             </Link>
+            <Link
+              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
+              href="/lending"
+            >
+              Lending
+            </Link>
+            <Link
+              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
+              href="/dao"
+            >
+              DAO
+            </Link>
 
             <Link
               class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"

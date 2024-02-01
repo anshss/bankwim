@@ -349,10 +349,10 @@ export default function Dashboard() {
   // console.log(imagedata);
   function CardCollateral() {
     return (
-      <div className="bg-black border border-2 border-white">
+      <div className="bg-black border-2 rounded-md border-white">
         {uri.collateral ? (
           <div className={styles.card}>
-            <Image src={nftUrl} width={500} height={500}></Image>
+            <Image src={nftUrl} width={300} height={300}></Image>
             <div className="flex flex-row w-400 gap-4 p-4 ml-4 mb-0">
               {collateralClaimed ? (
                 <button onClick={claimCollateral} disabled>
@@ -362,7 +362,7 @@ export default function Dashboard() {
               ) : (
                 <button
                   onClick={claimCollateral}
-                  className="border border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"
+                  className=" border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"
                 >
                   {" "}
                   Claim{" "}
@@ -370,7 +370,7 @@ export default function Dashboard() {
               )}
               <button
                 onClick={unstakeCollateral}
-                className="border border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"
+                className=" border-2 border-white bg-white hover:bg-black text-black hover:text-white p-2 w-3/4 rounded-full"
               >
                 {" "}
                 Unstake{" "}
@@ -384,7 +384,7 @@ export default function Dashboard() {
 
   if (state == true) {
     return (
-      <div className="bg-black w-full h-screen ">
+      <div className="bg-zinc-700 w-full h- ">
         <div className={styles.container}>
           <div>
             <h2 className="text-white text-4xl text-bold mt-40 mb-10 text-center font-mono">
@@ -395,15 +395,15 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="bg-black flex flex-row justify-between pb-5 pt-10">
-          <div className="text-3xl text-center font-sans text-white ml-5">
+        <div className=" ml-60 mt-10 flex flex-col justify-center pb-10 -pr-10 pt-10 w-3/4 ">
+          <div className=" w-1/4 ml-96 text-3xl text-center font-sans mb-4 border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
             Health Factor : {healthFactor}
           </div>
-          <div className="text-3xl text-center font-sans text-white">
+          <div className="w-1/4 ml-96 text-3xl text-center font-sans mb-4 border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white">
             Sucessful Returns : {sucessfulReturns}
           </div>
          
-          <div className="text-3xl text-center font-sans text-white mr-5">
+          <div className="w-1/4 ml-96 text-3xl text-center font-sans border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
             Credit Score : {creditScore}
           </div>
         </div>
