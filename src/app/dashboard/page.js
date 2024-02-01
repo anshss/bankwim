@@ -410,14 +410,18 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+        <div className="mx-96 mt-10 rounded-full text-black ">
         <input
+        className="text-center rounded-md p-2 text-md"
           type="text"
           placeholder="amount"
           onChange={(e) => {
             setClaimAmount(e.target.value);
           }}
         />
-        <div className=" ml-60 mt-10 flex flex-col justify-center pb-10 -pr-10 pt-10 w-3/4 ">
+        </div>
+        
+        <div className=" ml-60 mt-5 flex flex-col justify-center pb-10 -pr-10 pt-10 w-3/4 ">
           <div className=" w-1/4 ml-96 text-3xl text-center font-sans mb-4 border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
             Health Factor : {healthFactor}
           </div>
@@ -425,7 +429,7 @@ export default function Dashboard() {
             Sucessful Returns : {sucessfulReturns}
           </div>
 
-          <div className="w-1/4 ml-96 text-3xl text-center font-sans border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
+          <div className="w-1/4 ml-96 text-3xl text-center font-sans mb-4 border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
             Credit Score : {creditScore}
           </div>
           <div className="w-1/4 ml-96 text-3xl text-center font-sans border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
