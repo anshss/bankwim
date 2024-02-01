@@ -100,7 +100,7 @@ export default function Lending() {
     )
     console.log("Contract Address:", contractAddress);
     console.log("Token ID:", prop.tokenId);
-
+    
     const approve = await nftcontract.approve(contractAddress, prop.tokenId)
     const valueString = dataInput.value
     const parseValue = ethers.utils.parseUnits(valueString , 'ether')

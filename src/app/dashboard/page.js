@@ -1,4 +1,5 @@
 "use client";
+
 import styles from "../../styles/dashboard.module.css";
 
 import { CollateralContract } from "../config-address.js";
@@ -9,11 +10,11 @@ import { CollateralAbi } from "../config-abi.js";
 
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
 import web3modal from "web3modal";
+
 export default function Dashboard() {
   const CollateralContractAbi = CollateralAbi;
 
@@ -132,7 +133,7 @@ export default function Dashboard() {
 
   async function claimCollateral() {
     const signer = await getSignerOrProvider(true);
-    // const provider = new ethers.providers.JsonRpcProvider(`https://stylish-dark-violet.matic-testnet.discover.quiknode.pro/d935f45044efc89c96e437b0774f40b074c7816e/`)
+    //const provider = new ethers.providers.JsonRpcProvider(`https://stylish-dark-violet.matic-testnet.discover.quiknode.pro/d935f45044efc89c96e437b0774f40b074c7816e/`)
     const provider = await getSignerOrProvider();
     const contract = new ethers.Contract(
       CollateralContract,
@@ -151,7 +152,8 @@ export default function Dashboard() {
     //   };
     const txn = await contract.claim();
     hasClaimedCollateral();
-  }
+    
+  } 
 
   async function hasClaimedCollateral() {
     try {
@@ -352,7 +354,7 @@ export default function Dashboard() {
       <div className="bg-black border-2 rounded-md border-white">
         {uri.collateral ? (
           <div className={styles.card}>
-            <Image src={nftUrl} width={300} height={300}></Image>
+            <Image src={nftUrl} width={300} height={300} alt="nftimage"></Image>
             <div className="flex flex-row w-400 gap-4 p-4 ml-4 mb-0">
               {collateralClaimed ? (
                 <button onClick={claimCollateral} disabled>
@@ -410,4 +412,86 @@ export default function Dashboard() {
       </div>
     );
   }
+
+  //lending work
+  async function fetchLendingStake() {
+    try{
+        const signer = await getSignerOrProvider(true)
+        const contract = new ethers.Contract(LendingContract, LendingContractAbi, signer)
+        const user = await fetchAccount()
+        const stake = await contract.userToStake(user)
+        const parsedData = {
+            contractAdd: stake.contractAdd,
+            tokenId: stake.tokenId,
+        }
+        // console.log(parsedData)
+        if (parsedData.tokenId == null) return
+        const nftcontract = new ethers.Contract(parsedData.contractAdd, uriAbi, signer)
+        const id = parsedData.tokenId
+        const uriHere = await nftcontract.tokenURI(id.toNumber())
+        console.log(uriHere)
+        setUri({...uri, lending: uriHere})
+    } catch (error) {
+        // console.log(error)
+    }
+}
+
+async function claimLending() {
+    const signer = await getSignerOrProvider(true)
+    const contract = new ethers.Contract(LendingContract, LendingContractAbi, signer)
+    const txn = await contract.claim()
+    await txn.wait()
+    setClaimed(true)
+}
+
+async function unstakeLending() {
+    const signer = await getSignerOrProvider(true)
+    const contract = new ethers.Contract(LendingContract, LendingContractAbi, signer)
+    const txn = await contract.unstake()
+    await txn.wait()
+}
+
+async function claimTime() {
+    try {
+        const signer = await getSignerOrProvider(true)
+        const contract = new ethers.Contract(LendingContract, LendingContractAbi, signer)
+        const txn = await contract.claimTime()
+        setLendingClaimed(txn)
+    } catch (error) {
+        // console.log(error)
+    }
+}
+
+function CardLending() {
+    return (
+            <div className={styles.len}> 
+            { uri.lending &&
+                <div className={styles.card}>
+                    <img src={uri.lending} />
+                    <div className={styles.bb}>
+                        {lendingClaimed ? <button onClick={claimLending} disabled> Claimed </button> : 
+                        <button onClick={claimLending}> Claim </button>}
+                        <button onClick={unstakeLending}> Unstake </button>
+                    </div>
+                </div> }
+            </div> 
+    )
+}
+
+if(state == true){
+return (
+    <div>
+        <div className={styles.container}>
+            <div>
+                <h2 className={styles.heading}>Collateral</h2>
+                <CardCollateral/>
+            </div>
+            <div>
+                <h2 className={styles.heading}>Lending</h2>
+                <CardLending/>
+            </div>
+        </div>
+    </div>
+)
+}
 }
