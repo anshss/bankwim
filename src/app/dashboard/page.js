@@ -45,7 +45,7 @@ export default function Dashboard() {
 
   // const CollateralContract = "0xDbAe147fbcCE70b6C238f231ff854817412720a8";
   // const CollateralFundsContract = "0xb41eA4DEF472879812DF17d987Be179073AB5f46";
-  const tokenAddress = "0x62dc8Cd2046852542F9B601CD8C486937f67dBc5"; 
+  const tokenAddress = "0x0000A70C55690e20E8bCaf40E8338d8c57496Ca4";
 
   const router = useRouter();
 
@@ -152,8 +152,7 @@ export default function Dashboard() {
     //   };
     const txn = await contract.claim();
     hasClaimedCollateral();
-    
-  } 
+  }
 
   async function hasClaimedCollateral() {
     try {
@@ -404,7 +403,7 @@ export default function Dashboard() {
           <div className="w-1/4 ml-96 text-3xl text-center font-sans mb-4 border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white">
             Sucessful Returns : {sucessfulReturns}
           </div>
-         
+
           <div className="w-1/4 ml-96 text-3xl text-center font-sans border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
             Credit Score : {creditScore}
           </div>
@@ -415,83 +414,110 @@ export default function Dashboard() {
 
   //lending work
   async function fetchLendingStake() {
-    try{
-        const signer = await getSignerOrProvider(true)
-        const contract = new ethers.Contract(LendingContract, LendingContractAbi, signer)
-        const user = await fetchAccount()
-        const stake = await contract.userToStake(user)
-        const parsedData = {
-            contractAdd: stake.contractAdd,
-            tokenId: stake.tokenId,
-        }
-        // console.log(parsedData)
-        if (parsedData.tokenId == null) return
-        const nftcontract = new ethers.Contract(parsedData.contractAdd, uriAbi, signer)
-        const id = parsedData.tokenId
-        const uriHere = await nftcontract.tokenURI(id.toNumber())
-        console.log(uriHere)
-        setUri({...uri, lending: uriHere})
-    } catch (error) {
-        // console.log(error)
-    }
-}
-
-async function claimLending() {
-    const signer = await getSignerOrProvider(true)
-    const contract = new ethers.Contract(LendingContract, LendingContractAbi, signer)
-    const txn = await contract.claim()
-    await txn.wait()
-    setClaimed(true)
-}
-
-async function unstakeLending() {
-    const signer = await getSignerOrProvider(true)
-    const contract = new ethers.Contract(LendingContract, LendingContractAbi, signer)
-    const txn = await contract.unstake()
-    await txn.wait()
-}
-
-async function claimTime() {
     try {
-        const signer = await getSignerOrProvider(true)
-        const contract = new ethers.Contract(LendingContract, LendingContractAbi, signer)
-        const txn = await contract.claimTime()
-        setLendingClaimed(txn)
+      const signer = await getSignerOrProvider(true);
+      const contract = new ethers.Contract(
+        LendingContract,
+        LendingContractAbi,
+        signer
+      );
+      const user = await fetchAccount();
+      const stake = await contract.userToStake(user);
+      const parsedData = {
+        contractAdd: stake.contractAdd,
+        tokenId: stake.tokenId,
+      };
+      // console.log(parsedData)
+      if (parsedData.tokenId == null) return;
+      const nftcontract = new ethers.Contract(
+        parsedData.contractAdd,
+        uriAbi,
+        signer
+      );
+      const id = parsedData.tokenId;
+      const uriHere = await nftcontract.tokenURI(id.toNumber());
+      console.log(uriHere);
+      setUri({ ...uri, lending: uriHere });
     } catch (error) {
-        // console.log(error)
+      // console.log(error)
     }
-}
+  }
 
-function CardLending() {
+  async function claimLending() {
+    const signer = await getSignerOrProvider(true);
+    const contract = new ethers.Contract(
+      LendingContract,
+      LendingContractAbi,
+      signer
+    );
+    const txn = await contract.claim();
+    await txn.wait();
+    setClaimed(true);
+  }
+
+  async function unstakeLending() {
+    const signer = await getSignerOrProvider(true);
+    const contract = new ethers.Contract(
+      LendingContract,
+      LendingContractAbi,
+      signer
+    );
+    const txn = await contract.unstake();
+    await txn.wait();
+  }
+
+  async function claimTime() {
+    try {
+      const signer = await getSignerOrProvider(true);
+      const contract = new ethers.Contract(
+        LendingContract,
+        LendingContractAbi,
+        signer
+      );
+      const txn = await contract.claimTime();
+      setLendingClaimed(txn);
+    } catch (error) {
+      // console.log(error)
+    }
+  }
+
+  function CardLending() {
     return (
-            <div className={styles.len}> 
-            { uri.lending &&
-                <div className={styles.card}>
-                    <img src={uri.lending} />
-                    <div className={styles.bb}>
-                        {lendingClaimed ? <button onClick={claimLending} disabled> Claimed </button> : 
-                        <button onClick={claimLending}> Claim </button>}
-                        <button onClick={unstakeLending}> Unstake </button>
-                    </div>
-                </div> }
-            </div> 
-    )
-}
+      <div className={styles.len}>
+        {uri.lending && (
+          <div className={styles.card}>
+            <img src={uri.lending} />
+            <div className={styles.bb}>
+              {lendingClaimed ? (
+                <button onClick={claimLending} disabled>
+                  {" "}
+                  Claimed{" "}
+                </button>
+              ) : (
+                <button onClick={claimLending}> Claim </button>
+              )}
+              <button onClick={unstakeLending}> Unstake </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
 
-if(state == true){
-return (
-    <div>
+  if (state == true) {
+    return (
+      <div>
         <div className={styles.container}>
-            <div>
-                <h2 className={styles.heading}>Collateral</h2>
-                <CardCollateral/>
-            </div>
-            <div>
-                <h2 className={styles.heading}>Lending</h2>
-                <CardLending/>
-            </div>
+          <div>
+            <h2 className={styles.heading}>Collateral</h2>
+            <CardCollateral />
+          </div>
+          <div>
+            <h2 className={styles.heading}>Lending</h2>
+            <CardLending />
+          </div>
         </div>
-    </div>
-)
-}
+      </div>
+    );
+  }
 }
