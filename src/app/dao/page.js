@@ -152,17 +152,17 @@ export default function Dao() {
 
     function ProposalCard(prop) {
         return (
-            <div className="w-[35rem] flex flex-col items-start mt-8 mb-8">
+            <div className=" flex flex-col items-start mt-40 ml-20 mb-8 bg-zinc-700">
                 {/* <img src={uri} /> */}
-                <div className="flex flex-col justify-center p-4 border border-[rgb(59,177,204)] rounded-md">
-                    <h4 className="">address: {prop.tokenContract}</h4>
-                    <h4 className="">tokenId: {prop.tokenId}</h4>
+                <div className="flex flex-col justify-center p-4 border rounded-md">
+                    <h4 className="text-white text-lg font-mono">Address:{prop.tokenContract}</h4>
+                    <h4 className="text-white text-lg font-mono">tokenId:{prop.tokenId}</h4>
                     {/* <p>description: {prop.description}</p> */}
                     {/* <p>destination: {prop.destination}</p> */}
-                    <div className="flex justify-around w-[30rem]">
-                        <button className="py-4 px-8 mt-6 rounded-sm border-0 cursor-pointer bg-[rgb(59,177,204)] text-black" onClick={() => voteProposal(prop.proposalId, "YAY")}> yay </button>
-                        <button className="py-4 px-8 mt-6 rounded-sm border-0 cursor-pointer bg-[rgb(59,177,204)] text-black" onClick={() => voteProposal(prop.proposalId, "NAY")}> nay </button>
-                        <button className="py-4 px-8 mt-6 rounded-sm border-0 cursor-pointer bg-[rgb(59,177,204)] text-black" onClick={() => executeProposal(prop.proposalId)}> Execute </button>
+                    <div className="flex justify-around w-[30rem] ">
+                        <button className="py-2 rounded-full px-8 mt-6   bg-black hover:bg-white text-white hover:text-black cursor-pointer border-2" onClick={() => voteProposal(prop.proposalId, "YAY")}> Vote </button>
+                        <button className="py-2 rounded-full px-8 mt-6 bg-black hover:bg-white text-white hover:text-black cursor-pointer border-2" onClick={() => voteProposal(prop.proposalId, "NAY")}> No Vote </button>
+                        <button className="py-2 rounded-full px-8 mt-6  bg-black hover:bg-white text-white hover:text-black cursor-pointer border-2" onClick={() => executeProposal(prop.proposalId)}> Execute </button>
                     </div>
                 </div>
             </div>
@@ -170,11 +170,11 @@ export default function Dao() {
 
     function NftCard(prop) {
         return (
-            <div className="w-[35rem] flex flex-col items-start mt-8 mb-8">
+            <div className="w-[35rem] flex text-white flex-col items-start mt-8 mb-8">
                 {/* <img src={uri} /> */}
-                <div className="flex flex-col justify-center p-4 border border-[rgb(59,177,204)] rounded-md">
-                    <h4>address: {prop.tokenContract}</h4>
-                    <h4>tokenId: {prop.tokenId}</h4>
+                <div className="flex flex-col justify-center text-white p-4 border rounded-md">
+                    <h4 className="">address: {prop.tokenContract}</h4>
+                    <h4 className="">tokenId: {prop.tokenId}</h4>
                 </div>
             </div>
         )
@@ -287,10 +287,12 @@ export default function Dao() {
     return(
         <>
         
-        <div className="w-full bg-zinc-800 h-screen flex justify-center">
-            <div className="-ml-20 pl-10 justify-center bg-zinc-600 bg-opacity-30 backdrop-blur-md mt-40 mb-3 rounded-md">
+        <div className="w-full  bg-zinc-800 h-screen flex justify-center">
+            <div className="-ml-20 pl-10 justify-center border bg-zinc-600 bg-opacity-30 backdrop-blur-md mt-40 mb-3 rounded-md">
                 <div className="flex justify-around w-[30rem] -mb-7">
-                    { isMember ?  <button className="py-2 px-8 mt-20 mb-20 -ml-8 rounded-full  bg-black hover:bg-white text-white hover:text-black cursor-pointer border-2"  onClick={handleLeaveDao}>Leave Dao</button> :  <button className="py-2 px-8 mt-20 mb-20 -ml-8 rounded-full  bg-black hover:bg-white text-white hover:text-black cursor-pointer border-2" onClick={handleJoinDao}>Join Dao</button>}        
+
+                    { isMember ?  <button className="py-2 px-8 mt-20 mb-20 -ml-8 rounded-full  bg-black hover:bg-white text-white hover:text-black cursor-pointer border-2" onClick={handleLeaveDao}>Leave Dao</button> : 
+                    <button className="py-2 px-8 mt-20 mb-20 -ml-8 rounded-full  bg-black hover:bg-white text-white hover:text-black cursor-pointer border-2" onClick={handleJoinDao}>Join Dao</button>}        
                     <button className="py-3 px-8 mt-20 mb-20 -ml-8 rounded-full bg-black hover:bg-white text-white hover:text-black cursor-pointer border-2 " onClick={() => setSelectedTab("View Proposal")} >Show proposal</button>
                     <button className="py-2 px-8 mt-20 mb-20 -ml-8 rounded-full bg-black hover:bg-white text-white hover:text-black cursor-pointer border-2" onClick={() => setSelectedTab("View Nfts")} >Show Nfts</button>
                 </div>
@@ -306,7 +308,7 @@ export default function Dao() {
                     <button className="h-14  bg-black hover:bg-white text-white hover:text-black border-2 mt-2 text-2xl font-medium rounded-full font-mono" onClick={createProposal}>Propose</button>
                 </div>
             </div>
-            <div className="w-[35rem] flex flex-col items-start mt-8 mb-8">
+            <div className="w-[35rem] flex flex-col items-start mt-4 mb-8">
             {rendertabs()}
             </div>
         </div>
