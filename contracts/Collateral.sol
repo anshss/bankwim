@@ -19,9 +19,7 @@ contract Collateral is ERC721Holder {
     
     uint256 totalDeposits = 0;
     uint256 releaseAmount;
-
     uint256 currentLiquidationThreshold = 90;
-    
 
     struct Stake {
         address contractAdd;
@@ -32,8 +30,7 @@ contract Collateral is ERC721Holder {
         uint256 term ; //weeks
     }
 
-    struct UserCreditHealth{
-        uint256 collectralBalance;
+     struct UserCreditHealth{
         uint256 borrowBalance;
         uint256 healthFactor ;
         uint256 sucessfulReturns ;
@@ -49,26 +46,38 @@ contract Collateral is ERC721Holder {
     event unstaked(address owner, address contractAdd, uint256 tokenId, uint256 value, uint256 _term);
     event claimed(address owner, uint256 amount);
 
+    mapping(address => bool) public isReturnUser;
     mapping (address => Stake) public userToStake;
     mapping (address => bool) public hasClaimed;
     mapping (address => UserCreditHealth) public addressToUserCreditHealth;
 
-    function getCreditScore(address userAddress)public view returns(uint256){
-        return addressToUserCreditHealth[userAddress].creditScore;
+
+
+
+    function getCreditScore()public view returns(uint256){
+        return addressToUserCreditHealth[msg.sender].creditScore;
     }
-    function getHealthFactor(address userAddress)public view returns(uint256){
-        return addressToUserCreditHealth[userAddress].healthFactor;
+    function getHealthFactor()public view returns(uint256){
+        return addressToUserCreditHealth[msg.sender].healthFactor;
     }
-    function getSucessfulReturns(address userAddress)public view returns(uint256){
-        return addressToUserCreditHealth[userAddress].sucessfulReturns;
+    function getSucessfulReturns()public view returns(uint256){
+        return addressToUserCreditHealth[msg.sender].sucessfulReturns;
     }
-    function getCreditLimit(address userAddress)public view returns(uint256){
-        return addressToUserCreditHealth[userAddress].creditLimit;
+    function getCreditLimit()public view returns(uint256){
+        return addressToUserCreditHealth[msg.sender].creditLimit;
     }
 
-    function setCreditLimit(uint256 newCreditLimit)public {
-        addressToUserCreditHealth[msg.sender].creditLimit = newCreditLimit;
-       emit updatedCreditLimit(msg.sender,newCreditLimit);
+    function setCreditLimit()public {
+        if((addressToUserCreditHealth[msg.sender].creditScore / 30)<90){
+          
+            addressToUserCreditHealth[msg.sender].creditLimit=(addressToUserCreditHealth[msg.sender].creditScore / 15);
+        }
+        if((addressToUserCreditHealth[msg.sender].creditScore / 30)>15){
+            
+            addressToUserCreditHealth[msg.sender].creditLimit=80;
+        }
+       
+       emit updatedCreditLimit(msg.sender,addressToUserCreditHealth[msg.sender].creditLimit);
     }
     function setCreditScore(uint256 newCreditScore)public {
         addressToUserCreditHealth[msg.sender].creditScore = newCreditScore;
@@ -82,48 +91,68 @@ contract Collateral is ERC721Holder {
 
 
     function setHealthFactor()public {
-        // the values of collecollectralBalance and borrowBalance should be updated for the user before calling this function 
-       // addressToUserCreditHealth[msg.sender].collectralBalance=1000;
-       // addressToUserCreditHealth[msg.sender].borrowBalance = 10;
-       addressToUserCreditHealth[msg.sender].collectralBalance=userToStake[msg.sender].value;
-        addressToUserCreditHealth[msg.sender].healthFactor = ((((addressToUserCreditHealth[msg.sender].collectralBalance)*currentLiquidationThreshold)/100)/addressToUserCreditHealth[msg.sender].borrowBalance);
-       emit updatedSucessfulReturns(msg.sender,addressToUserCreditHealth[msg.sender].healthFactor);
-    }
- 
 
     
-  
+        addressToUserCreditHealth[msg.sender].healthFactor = 100 - ((((userToStake[msg.sender].value)*currentLiquidationThreshold)/100)/addressToUserCreditHealth[msg.sender].borrowBalance);
+       emit updatedSucessfulReturns(msg.sender,addressToUserCreditHealth[msg.sender].healthFactor);
+    }
+
+
+
+
+
 
     function deposit(address _contract, uint256 _tokenId, uint256 _value, uint256 _term) public {
+        if(isReturnUser[msg.sender]==false){
+            addressToUserCreditHealth[msg.sender]=UserCreditHealth( 0, 0 ,0, 10, 300);
+            isReturnUser[msg.sender]=true;
+        }
+
+        
+        
         IERC721 nftContract = IERC721(_contract);
 
         require(nftContract.ownerOf(_tokenId) == msg.sender, "only owner of token can deposit");
+        // term not required to facilitate testing for hackaton
         // require(_term >= 4 * 604800); // term should be atleast 1 month
         // require(_term <= 32 * 604800); // term should be less than 4 months
         nftContract.safeTransferFrom(msg.sender, address(this), _tokenId);
         userToStake[msg.sender] = Stake(_contract, _tokenId, payable(msg.sender), block.timestamp, _value, _term ); // storing term as weeks as (* 604800)
         emit staked(msg.sender, _contract, _tokenId, _value, _term);
+        addressToUserCreditHealth[msg.sender].creditScore = (addressToUserCreditHealth[msg.sender].creditScore + 100);
+        setCreditLimit();
         totalDeposits += 1;
-        
     }
 
-    function claim() public {
+    function claim(uint256 claimAmount) public {
         require(!hasClaimed[msg.sender]);
-        funds.transferFunds(msg.sender, userToStake[msg.sender].value);
+        
+        require(claimAmount <=  ((userToStake[msg.sender].value/100)*addressToUserCreditHealth[msg.sender].creditLimit));
+        funds.transferFunds(msg.sender,claimAmount );
+        addressToUserCreditHealth[msg.sender].borrowBalance = claimAmount;
         hasClaimed[msg.sender] = true;
+        addressToUserCreditHealth[msg.sender].creditScore = (addressToUserCreditHealth[msg.sender].creditScore + 40);
+        setCreditLimit();
+        setHealthFactor();
         emit claimed(msg.sender, userToStake[msg.sender].value);
     }
 
 
     function unstake() public payable {
         Stake memory crtStake = userToStake[msg.sender];
-        require(block.timestamp - crtStake.timestamp >= crtStake.term, "term not over yet");
+        // term not required to facilitate testing for hackaton
+        //require(block.timestamp - crtStake.timestamp >= crtStake.term, "term not over yet");
         funds.returnFunds(msg.sender);
         IERC721 currentNft = IERC721(crtStake.contractAdd);
         currentNft.safeTransferFrom(address(this), msg.sender, crtStake.tokenId);
         delete userToStake[msg.sender];
         delete hasClaimed[msg.sender];
-        emit unstaked(msg.sender, crtStake.contractAdd, crtStake.tokenId, crtStake.value, crtStake.term);
+        addressToUserCreditHealth[msg.sender].sucessfulReturns = addressToUserCreditHealth[msg.sender].sucessfulReturns+1;
+        addressToUserCreditHealth[msg.sender].creditScore = (addressToUserCreditHealth[msg.sender].creditScore + 30);
+        addressToUserCreditHealth[msg.sender].borrowBalance= 0;
+        addressToUserCreditHealth[msg.sender].healthFactor= 0;
+        setCreditLimit();
+       // emit unstaked(msg.sender, crtStake.contractAdd, crtStake.tokenId, crtStake.value, crtStake.term);
     }
 
     function fetchNftValue() public view returns(uint256) {
@@ -136,6 +165,7 @@ contract Collateral is ERC721Holder {
     }
 
     function fetchDepositAmount() public view returns(uint256) {
-        return totalDeposits;}
-
+        return totalDeposits;
+    }
+    
 }
