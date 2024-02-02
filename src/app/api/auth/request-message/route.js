@@ -14,7 +14,7 @@ const configx = {
 const config = {
   domain: "defi.finance",
   statement: "Please sign this message to confirm your identity.",
-  uri: "https://defi.finance",
+  uri: "Bankwin",
   timeout: 60,
 };
 

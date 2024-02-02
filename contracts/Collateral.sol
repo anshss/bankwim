@@ -104,7 +104,7 @@ contract Collateral is ERC721Holder {
 
     function deposit(address _contract, uint256 _tokenId, uint256 _value, uint256 _term) public {
         if(isReturnUser[msg.sender]==false){
-            addressToUserCreditHealth[msg.sender]=UserCreditHealth( 0, 0 ,0, 10, 300);
+            addressToUserCreditHealth[msg.sender]=UserCreditHealth( 0, 0 ,0, 40, 300);
             isReturnUser[msg.sender]=true;
         }
 

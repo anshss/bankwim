@@ -400,7 +400,7 @@ export default function Dashboard() {
 
   if (state == true) {
     return (
-      <div className="bg-zinc-700 w-full h-screen ">
+      <div className="bg-zinc-700 w-full  ">
         <div className={styles.container}>
           <div>
             <h2 className="text-white text-4xl text-bold mt-40 mb-10 text-center font-mono">
