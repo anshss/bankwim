@@ -400,7 +400,7 @@ export default function Dashboard() {
 
   if (state == true) {
     return (
-      <div className="bg-zinc-700 w-full h- ">
+      <div className="bg-zinc-700 w-full h-screen ">
         <div className={styles.container}>
           <div>
             <h2 className="text-white text-4xl text-bold mt-40 mb-10 text-center font-mono">
@@ -424,7 +424,7 @@ export default function Dashboard() {
 
         <div className=" ml-60 mt-5 flex flex-col justify-center pb-10 -pr-10 pt-10 w-3/4 ">
           <div className=" w-1/4 ml-96 text-3xl text-center font-sans mb-4 border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white ">
-            Health Factor : {(healthFactor/100)} 
+            Health Factor : {healthFactor / 100}
           </div>
           <div className="w-1/4 ml-96 text-3xl text-center font-sans mb-4 border-2 hover:bg-white hover:text-black cursor-cell rounded-lg text-white">
             Sucessful Returns : {sucessfulReturns}
