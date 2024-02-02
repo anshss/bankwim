@@ -79,8 +79,7 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* <ConnectKitButton /> */}
-          <SignIn />
+          <ConnectKitButton />
         </div>
       </div>
     </header>

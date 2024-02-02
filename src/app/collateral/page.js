@@ -99,7 +99,7 @@ export default function Collateral() {
 
     await approve.wait();
     await txn.wait();
-    // router.push('/dashboard')
+    router.push("/dashboard");
     fetch();
   }
 

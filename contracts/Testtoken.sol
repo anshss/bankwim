@@ -5,7 +5,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contr
 
 contract USDTMinter is ERC20 {
 
-    constructor() ERC20("US Dollar", "USDT") {
+    constructor() ERC20("US Dollar", "TEST") {
         _mint(msg.sender, 1000 * 10 ** 18);
     }
 
