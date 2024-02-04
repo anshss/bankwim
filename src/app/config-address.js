@@ -1,9 +1,10 @@
-export const CollateralContract = "0x58e7Cda8c49429adB9326eb557A9cB73110E997E";
+export const CollateralContract = "0xE2133E91Fcf58e5922BbEf6179BBbEe6dA532323";
 
-export const CollateralFundsContract ="0x62dc8Cd2046852542F9B601CD8C486937f67dBc5";
+export const CollateralFundsContract =
+  "0x2b6D90B7fb25c1f214DA5B636870eAeB143985B4";
 
-export const LendingContract = "0xA76dcF07FBc3Dd047E6c0B8dD2e5894F1612a958";
+export const LendingContract = "0xbdCC38c8bF97142529D108D0Ca4683DE1a4Ba6D4";
 
-export const DaoContract = "0xdc3fFc4B575DdC181B63074646b3942C64457262";
+export const DaoContract = "0x54c4e553DdFac7D348Bf96c393eAaA0aF43CF7Fc";
 
-export const contractAddress = "0x0000A70C55690e20E8bCaf40E8338d8c57496Ca4";
+export const contractAddress = "";

@@ -10,7 +10,7 @@ export default function Main() {
                     Empower Your NFTs: Secure Collateral Loans and Earn Passive
                     Income Seamlessly
                     <br />
-                    with the power of GHO and BankWim
+                    with the power of AREON and BankWim
                 </h2>
                 <div className="ml-6 text-center">
                     {/* <a
@@ -56,7 +56,7 @@ export default function Main() {
                     <p class="pt-2 value-text text-md text-gray-200 fkrr1">
                         Transform your digital assets into immediate value. Our
                         platform enables users to place their NFTs as collateral
-                        for stablecoins like GHO.
+                        for stablecoins like AREON.
                     </p>
                 </div>
                 <div class="ktq4">
@@ -115,18 +115,18 @@ export default function Main() {
                 <div class="ktq4">
                     <img src=""></img>
                     <h3 class="pt-3 font-semibold text-lg text-white">
-                        Deposit NFT to take some GHO
+                        Deposit NFT to take some AREON
                     </h3>
                     <p class="pt-2 value-text text-md text-gray-200 fkrr1">
                         List your NFT as collateral and get a loan up to 40% of
-                        NFT value from us in GHO. Once you hit the button, your
+                        NFT value from us in AREON. Once you hit the button, your
                         NFT gets transferred into a escrow smart contract for
                         the loan duration. Repay the loan after the duration
                         with 4% interest in a duration of 1 month. If you
                         default, our Dao can foreclose your NFT. Collateral
                         duration can vary between 1 month to 4 months. This time
                         period is decided to avoid NFT fluctuations. For the
-                        same reason, the amount is given in GHO.
+                        same reason, the amount is given in AREON.
                     </p>
                 </div>
             </div>

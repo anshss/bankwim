@@ -7,25 +7,28 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 contract CollateralFunds is Ownable{
 
+    
+
     constructor() Ownable(0x063145aa5f16FAD2C8179c1E0Ff1a1a39D95AF9d) {
-        priceFeed = AggregatorV3Interface(0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada); //  matic/usd
+        priceFeed = AggregatorV3Interface(0x063145aa5f16FAD2C8179c1E0Ff1a1a39D95AF9d); // currently holds a dummy address  to be updated when datafeeds are available
     }
 
     AggregatorV3Interface internal priceFeed;
 
     function getLatestPrice() public view returns (int) {
-        (,int price,,,) = priceFeed.latestRoundData();
+       // (,int price,,,) = priceFeed.latestRoundData();
         return price;
     }
+    int price = 12000000; // simulating price of are token at 0.12 area per usd 
 
-   IERC20 usdt = IERC20(0xFA31614f5F776eDD6f72Bc00BdEb22Bd4A59A7Db); //usdt contract
+   IERC20 usdt = IERC20(0xfbF6556BeC934eaAd7FDeC7Bb286Ed566d602DE8); //Testing token contract taking value as equal to 1 usd 
 
     mapping (address => bool) public controller;
     mapping (address => uint256) public userToPaid;
 
     function transferFunds(address user, uint256 amount) public {
-        require(controller[msg.sender], "only controller can use this function");
-        uint256 releaseAmount = (40 * amount)/100; //40% of nft value
+       require(controller[msg.sender], "only controller can use this function");
+        uint256 releaseAmount = amount;//(40 * amount)/100; //40% of nft value
         uint256 chainlinkDecimals = 10 ** 10;
         uint256 PriceInUsdt = uint256(getLatestPrice()) * chainlinkDecimals; //chainlink fetches native/usdt price
         uint256 usdtAmount = (releaseAmount * PriceInUsdt) / 10**18;

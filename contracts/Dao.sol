@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 contract Dao is Ownable {
 
-    constructor(address _lendingContract) Ownable(0x48e6a467852Fa29710AaaCDB275F85db4Fa420eB) {
+    constructor(address _lendingContract) Ownable(0x063145aa5f16FAD2C8179c1E0Ff1a1a39D95AF9d) {
         lendingContract = _lendingContract;
     }
 

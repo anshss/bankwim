@@ -6,16 +6,24 @@ import { CollateralAbi } from "../config-abi";
 import web3modal from "web3modal";
 import { ethers } from "ethers";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 import Card from "../../components/CardCollateral";
+
 
 export default function Collateral() {
   const contractAddress = CollateralContract;
   const contractAbi = CollateralAbi;
 
   const [nfts, setNfts] = useState([]);
-
+  const [collateralNftAddresss, setcollateralNftAddresss] = useState();
+  const [collateralTokenId, setCollateralTokenId] = useState();
+  const [collateralTerm, setCollateralTerm] = useState();
+  const [collateralValue, setCollateralValue] = useState();
   // const router = useRouter()
+  
+const router = useRouter();
 
   useEffect(() => {
     fetchAccount().then((user) => fetch(user));
@@ -77,24 +85,45 @@ export default function Collateral() {
     const connection = await modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
-    const nftAddress = prop.tokenContract;
+    const nftAddress = collateralNftAddresss; //prop.tokenContract;
+
     const nftcontract = new ethers.Contract(
       nftAddress.toString(),
       nftabi,
       signer
     );
     console.log(prop.dataInput);
-    const approve = await nftcontract.approve(contractAddress, prop.tokenId);
-    const valueString = prop.dataInput.value;
-    console.log(valueString);
-    const parseValue = ethers.utils.parseUnits(valueString, "ether");
+    console.log(typeof Number(collateralTokenId));
+    console.log(collateralNftAddresss)
+    const approve = await nftcontract.approve(
+      contractAddress,
+      Number(collateralTokenId)
+    );
+    console.log(collateralNftAddresss)
+    // const valueString = prop.dataInput.value;
+    // console.log(valueString);
+    const parseValue = ethers.utils.parseUnits(collateralValue, "ether");
     const contract = new ethers.Contract(contractAddress, contractAbi, signer);
     console.log(parseValue);
+    // const txn = await contract.deposit(
+    //   prop.tokenContract,
+    //   prop.tokenId,
+    //   parseValue,
+    //   prop.dataInput.term
+    // );
+    console.log(collateralNftAddresss)
+    // const txn = await contract.deposit(
+    //   collateralNftAddresss,
+    //   Number(collateralTokenId),
+    //   parseValue,
+    //   Number(collateralTerm)
+    // );
+
     const txn = await contract.deposit(
-      prop.tokenContract,
-      prop.tokenId,
+      collateralNftAddresss,
+      collateralTokenId,
       parseValue,
-      prop.dataInput.term
+      collateralTerm
     );
 
     await approve.wait();
@@ -120,10 +149,10 @@ export default function Collateral() {
 
   return (
     <div className="w-full h-screen bg-black mt-0 pt-40 text-center text-3xl">
-      <h2 className="text-white">Lock your Nfts and get 40% of value</h2>
+      <h2 className="text-white">Lock your Nfts and get UPTO 80% of value</h2>
 
       <div className="bg-black p-5 flex flex-row">
-        {nfts.map((nft, i) => (
+        {/* {nfts.map((nft, i) => (
           <Card
             key={i}
             uri={nft.token_uri}
@@ -132,7 +161,48 @@ export default function Collateral() {
             Collateral={Collateral}
             className="w-1/3 p-2 m-2" // Adjust width, padding, and margin as needed
           />
-        ))}
+        ))} */}
+        <div>
+          <div className="ml-10 flex flex-col w-3/4 ">
+            <input
+              className="h-14 bg-white text-xl mt-2 font-normal border-b-[3px] border-black text-black p-5 rounded-md placeholder:text-[rgba(57,56,56,0.818)] text-center"
+              name="contractAdd"
+              placeholder="Contract address"
+              required
+              onChange={(e) => setcollateralNftAddresss(e.target.value)}
+            />
+
+            <input
+              className="h-14 bg-white text-xl mt-2 font-normal border-b-[3px] border-black text-black p-5 rounded-md placeholder:text-[rgba(57,56,56,0.818)] text-center"
+              name="tokenId"
+              placeholder="TokenId"
+              required
+              onChange={(e) => setCollateralTokenId(e.target.value)}
+            />
+
+            <input
+              className="h-14 bg-white text-xl mt-2 font-normal border-b-[3px] border-black text-black p-5 rounded-md placeholder:text-[rgba(57,56,56,0.818)] text-center"
+              name="value"
+              placeholder="Value"
+              required
+              onChange={(e) => setCollateralValue(e.target.value)}
+            />
+            <input
+              className="h-14 bg-white text-xl mt-2 font-normal border-b-[3px] border-black text-black p-5 rounded-md placeholder:text-[rgba(57,56,56,0.818)] text-center"
+              name="terms"
+              placeholder="Term"
+              required
+              onChange={(e) => setCollateralTerm(e.target.value)}
+            />
+
+            <button
+              onClick={Collateral}
+              className="h-14  bg-black hover:bg-white text-white hover:text-black border-2 mt-2 text-2xl font-medium rounded-full font-mono"
+            >
+              Submit collateral
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

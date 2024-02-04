@@ -22,6 +22,7 @@ export default function Dashboard() {
   const [collateralClaimed, setCollateralClaimed] = useState(false);
   const [nftUrl, setNftUrl] = useState();
   const [state, setState] = useState(false);
+  const [stakeOBJ, setStakeOBJ] = useState();
   const [collectralBalance, setCollectralBalance] = useState("Na");
   const [borrowBalance, setBorrowBalance] = useState("Na");
   const [healthFactor, setHealthFactor] = useState("Na");
@@ -47,7 +48,7 @@ export default function Dashboard() {
 
   // const CollateralContract = "0xDbAe147fbcCE70b6C238f231ff854817412720a8";
   // const CollateralFundsContract = "0xb41eA4DEF472879812DF17d987Be179073AB5f46";
-  const tokenAddress = "0x0000A70C55690e20E8bCaf40E8338d8c57496Ca4";
+  const tokenAddress = "0xfbF6556BeC934eaAd7FDeC7Bb286Ed566d602DE8";
 
   const router = useRouter();
 
@@ -103,13 +104,15 @@ export default function Dashboard() {
       const signer = await getSignerOrProvider(true);
       const contract = new ethers.Contract(
         CollateralContract,
-        CollateralContractAbi,
+        CollateralAbi,
         signer
       );
       console.log(contract);
       const user = await fetchAccount();
 
       const stake = await contract.userToStake(user);
+      setStakeOBJ(stake);
+      console.log(stake);
 
       console.log(stake);
       const parsedData = {
@@ -134,19 +137,21 @@ export default function Dashboard() {
   }
 
   async function claimCollateral(amount) {
+    console.log(typeof amount);
     try {
-      const valueString = amount.toString();
+      const valueString = amount;
       const parseValue = ethers.utils.parseUnits(valueString, "ether");
       const signer = await getSignerOrProvider(true);
       const contract = new ethers.Contract(
         CollateralContract,
-        CollateralContractAbi,
+        CollateralAbi,
         signer
       );
+      console.log(contract);
       console.log(parseValue);
       const txn = await contract.claim(parseValue);
       await txn.wait(); // Wait for the transaction to be confirmed
-      hasClaimedCollateral(); // Update state or UI as needed after confirmation
+      //hasClaimedCollateral(); // Update state or UI as needed after confirmation
     } catch (error) {
       console.error("Error in claiming collateral:", error);
     }
@@ -406,20 +411,46 @@ export default function Dashboard() {
             <h2 className="text-white text-4xl text-bold mt-40 mb-10 text-center font-mono">
               Collateral
             </h2>
-            <div className="">
-              <CardCollateral />
-            </div>
+            {stakeOBJ?.contractAdd.slice(3, 7) == "0000" ? (
+              <div>
+                <h2 className="text-white text-4xl text-bold mt-40 mb-10 text-center font-mono">
+                  No Collateral : )
+                </h2>
+              </div>
+            ) : (
+              <div className="ml-10 flex flex-col w-3/4 ">
+                <input
+                  className="h-14 bg-white text-xl mt-2 font-normal border-b-[3px] border-black text-black p-5 rounded-md placeholder:text-[rgba(57,56,56,0.818)] text-center"
+                  name="contractAdd"
+                  placeholder="claim amount"
+                  required
+                  onChange={(e) => {
+                    setClaimAmount(e.target.value);
+                  }}
+                />
+
+                <button
+                  onClick={(e) => {
+                    claimCollateral(claimAmount);
+                  }}
+                  className="h-14  bg-black hover:bg-white text-white hover:text-black border-2 mt-2 text-2xl font-medium rounded-full font-mono"
+                >
+                  claim
+                </button>
+
+                <br />
+
+                <hr />
+
+                <button
+                  onClick={unstakeCollateral}
+                  className="h-14  bg-black hover:bg-white text-white hover:text-black border-2 mt-2 text-2xl font-medium rounded-full font-mono"
+                >
+                  Unstake
+                </button>
+              </div>
+            )}
           </div>
-        </div>
-        <div className=" mx-96 mt-2 flex flex-col justify-center pb-10 pt-10 w-1/2 ">
-          <input
-            className="text-center rounded-md p-2 text-md"
-            type="text"
-            placeholder="amount"
-            onChange={(e) => {
-              setClaimAmount(e.target.value);
-            }}
-          />
         </div>
 
         <div className=" ml-60 mt-5 flex flex-col justify-center pb-10 -pr-10 pt-10 w-3/4 ">
